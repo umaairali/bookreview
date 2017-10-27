@@ -1,7 +1,6 @@
 class ReviewsController < ApplicationController
 
 	before_action :find_book
-]
 	before_action :find_review, only: [:edit, :update, :destroy]
 
 	before_action :authenticate_user!, onlye: [:new, :edit]
