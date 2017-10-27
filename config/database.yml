@@ -1,4 +1,4 @@
-common: &common
+development:
  adapter: postgresql
  encoding: utf8
  database: "review"
@@ -6,6 +6,3 @@ common: &common
  password: postgres
  host: "localhost"
  port: 5432
-
-development:
- <<: *common
