@@ -40,14 +40,14 @@ class ReviewsController < ApplicationController
 	private
 
 	def review_params
-		params.require(:review).permit(:rating, :comment)
+		params.require(:review).permit(:rating, :comment, :slug)
 	end
 
 	def find_book
-		@book = Book.find(params[:book_id])
+		@book = Book.friendly.find(params[:book_id])
 	end
 
 	def find_review
-		@review = Review.find(params[:id])
+		@review = Review.friendly.find(params[:id])
 	end
 end

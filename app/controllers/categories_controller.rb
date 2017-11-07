@@ -8,13 +8,13 @@ class CategoriesController < ApplicationController
 		if @category.save
 			redirect_to root_path
 		else
-			'new'
+			render 'new'
 		end
 	end
 
 	private
 
 	def category_params
-		params.require(:category).permit(:name)
+		params.require(:category).permit(:name, :slug)
 	end
 end

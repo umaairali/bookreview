@@ -1,8 +1,19 @@
 <%= simple_form_for @book, :html => { :multipart => true } do |f| %>
-	<%= select_tag(:category_id, options_for_select(@categories), :prompt => "Select a category") %>
-	<%= f.file_field :book_img %>
-	<%= f.input :title, label: "Book Title" %>
-	<%= f.input :description %>
-	<%= f.input :author %>
-	<%= f.button :submit, :class => 'btn-custom2' %>
+  <% if @book.errors.any? %>
+    <div id="error_explanation">
+      <h2>Errors:</h2>
+      <ul>
+      <% @book.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%#= f.select(:category_id, options_for_select(Category.all), :prompt => "Select a category") %>
+  <%= f.collection_select(:category_id, Category.all, :id, :name, { :prompt => "Select Category" }) %>
+  <%= f.collection_select(:author_id, Author.all, :id, :name, { :prompt => "Select Author" }, multiple: true) %>
+  <%= f.file_field :book_img %>
+  <%= f.input :title, label: "Book Title" %>
+  <%= f.input :description %>
+  <%= f.button :submit, :class => 'btn-custom2' %>
 <% end %>

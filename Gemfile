@@ -6,6 +6,12 @@ git_source(:github) do |repo_name|
 end
 
 gem 'rails_12factor', group: :production
+# pagination
+gem 'will_paginate'
+# search
+gem 'chewy'
+#friend url
+gem 'friendly_id'
 # Form gem
 gem 'simple_form'
 # BootStrap

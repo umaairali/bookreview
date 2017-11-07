@@ -3,6 +3,14 @@
 		<h1>New Category</h1>
 
 		<%= simple_form_for([@category]) do |f| %>
+			<% if @category.errors.any? %>
+				<h2>Errors:</h2>
+				<ul>
+					<% @category.errors.full_messages.each do |message| %>
+						<li><%= message %></li>
+					<% end %>
+				</ul>
+			<% end %>
 			<%= f.input :name %>
 			<%= f.button :submit, :class => "btn-custom2" %>
 		<% end %>

@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171026082657) do
+ActiveRecord::Schema.define(version: 20171101121723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "books", force: :cascade do |t|
     t.string "title"
@@ -27,12 +33,39 @@ ActiveRecord::Schema.define(version: 20171026082657) do
     t.string "book_img_content_type"
     t.integer "book_img_file_size"
     t.datetime "book_img_updated_at"
+    t.string "slug"
+    t.integer "author_id"
+    t.index ["slug"], name: "index_books_on_slug", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "publishers", force: :cascade do |t|
+    t.string "name"
+    t.bigint "author_id"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_publishers_on_author_id"
+    t.index ["book_id"], name: "index_publishers_on_book_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -42,6 +75,8 @@ ActiveRecord::Schema.define(version: 20171026082657) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "book_id"
+    t.string "slug"
+    t.index ["slug"], name: "index_reviews_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -61,4 +96,6 @@ ActiveRecord::Schema.define(version: 20171026082657) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "publishers", "authors"
+  add_foreign_key "publishers", "books"
 end
